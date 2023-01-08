@@ -1,7 +1,7 @@
 {
   "name": "@eswarpr/node-red-modn-counter",
   "version": "1.0.1",
-  "description": "A node-RED node to simulate mod-N counters like SN74LS90 in your flows",
+  "description": "A node-RED node to simulate mod-N counters like SN74LS90 or SN74LS92 in your flows",
   "keywords": [
     "node-red",
     "mod-n counter"
