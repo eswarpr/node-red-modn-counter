@@ -1,0 +1,28 @@
+{
+  "name": "@eswarpr/node-red-modn-counter",
+  "version": "1.0.1",
+  "description": "A node-RED node to simulate mod-N counters like SN74LS90 in your flows",
+  "keywords": [
+    "node-red",
+    "mod-n counter"
+  ],
+  "engines": {
+    "node": ">=16.16.0 <=18.12.0"
+  },
+  "node-red": {
+    "version": ">=3.0.0",
+    "nodes": {
+      "modn-counter": "modn-counter.js"
+    }
+  },
+  "author": "Eswar Prakash",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/eswarpr/node-red-modn-counter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eswarpr/node-red-modn-counter/issues"
+  },
+  "homepage": "https://github.com/eswarpr/node-red-modn-counter#readme"
+}

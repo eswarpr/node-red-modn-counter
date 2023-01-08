@@ -1,0 +1,82 @@
+<script type="text/javascript">
+    RED.nodes.registerType("mod-n counter", {
+        category: "Hardware Simulators",
+        color: '#d9d9d9',
+        defaults: {
+            name: {
+                value: ''
+            },
+            numStates: {
+                value: 2
+            },
+            triggerOn: {
+                value: 'both'
+            },
+            outputs: {
+                value: 1
+            },
+            outputDebugInfo: {
+                value: false
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'icon.png',
+        outputLabels: function (index) {
+            return ["output", "debug"][index];
+        },
+        label: function () {
+            return this.name || `mod-${this.numStates} counter`;
+        },
+        oneditprepare: function () {
+            //$("#node-input-outputDebugInfo").prop("checked", this.outputDebugInfo);
+        },
+        oneditsave: function () {
+            let outputCount = 1;
+            if ($("#node-input-outputDebugInfo").prop("checked")) {
+                outputCount++;
+            }
+            this.outputs = outputCount;
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="mod-n counter">
+    <style>
+        .check-box-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .check-box-row #node-input-outputDebugInfo {
+            width: auto;
+            margin-left: 100px;
+            margin-right: 8px;
+            margin-top: 0;
+        }
+
+        .check-box-row label {
+            margin-bottom: 0;
+        }
+    </style>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:250px">
+    </div>
+    <div class="form-row check-box-row">
+        <input type="checkbox" id="node-input-outputDebugInfo">
+        <label for="node-input-outputDebugInfo"> Output Debug</label>
+    </div>
+    <div class="form-row">
+        <label for="node-input-numStates"> States</label>
+        <input type="number" min="2" max="10" id="node-input-numStates">
+    </div>
+    <div class="form-row">
+        <label for="node-input-triggerOn"><i class="fa fa-bolt"></i> Trigger On</label>
+        <select id="node-input-triggerOn">
+            <option value="both">both</option>
+            <option value="1">high</option>
+            <option value="0">low</option>
+        </select>
+    </div>
+</script>
