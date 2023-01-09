@@ -1,0 +1,104 @@
+[
+  {
+    "id": "0c04af2c863d9f7f",
+    "type": "tab",
+    "label": "mod-n Example 3",
+    "disabled": false,
+    "info": "Demonstrates using counters in a series to\nexpand delay times in flows",
+    "env": []
+  },
+  {
+    "id": "d6d0ddf70a4dd448",
+    "type": "inject",
+    "z": "0c04af2c863d9f7f",
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "5",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "1",
+    "payloadType": "num",
+    "x": 90,
+    "y": 60,
+    "wires": [
+      [
+        "835cd7c8367d9f08"
+      ]
+    ]
+  },
+  {
+    "id": "835cd7c8367d9f08",
+    "type": "mod-n counter",
+    "z": "0c04af2c863d9f7f",
+    "name": "",
+    "numStates": 2,
+    "triggerOn": "1",
+    "outputs": 1,
+    "outputDebugInfo": false,
+    "x": 280,
+    "y": 60,
+    "wires": [
+      [
+        "0cbfc02e7588a653"
+      ]
+    ]
+  },
+  {
+    "id": "0cbfc02e7588a653",
+    "type": "mod-n counter",
+    "z": "0c04af2c863d9f7f",
+    "name": "",
+    "numStates": "5",
+    "triggerOn": "1",
+    "outputs": 1,
+    "outputDebugInfo": false,
+    "x": 520,
+    "y": 60,
+    "wires": [
+      [
+        "ff7f4066df83438c"
+      ]
+    ]
+  },
+  {
+    "id": "ff7f4066df83438c",
+    "type": "function",
+    "z": "0c04af2c863d9f7f",
+    "name": "counter output",
+    "func": "msg.payload = `counter set (mod-2 * mod-5)`;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 740,
+    "y": 60,
+    "wires": [
+      [
+        "f9a07dfa18c4134b"
+      ]
+    ]
+  },
+  {
+    "id": "f9a07dfa18c4134b",
+    "type": "debug",
+    "z": "0c04af2c863d9f7f",
+    "name": "debug 4",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 940,
+    "y": 60,
+    "wires": []
+  }
+]

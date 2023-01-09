@@ -1,0 +1,113 @@
+[
+  {
+    "id": "226ebde6fc6e5490",
+    "type": "tab",
+    "label": "mod-n counter - Example 1",
+    "disabled": true,
+    "info": "Demonstrates use of counter to granularly control \nthe timing of actions",
+    "env": []
+  },
+  {
+    "id": "568605c6515ab1a7",
+    "type": "inject",
+    "z": "226ebde6fc6e5490",
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "5",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "1",
+    "payloadType": "num",
+    "x": 150,
+    "y": 80,
+    "wires": [
+      [
+        "f49be7f3d51fb2c5"
+      ]
+    ]
+  },
+  {
+    "id": "7b095d5be27d0c72",
+    "type": "debug",
+    "z": "226ebde6fc6e5490",
+    "name": "debug 2",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1040,
+    "y": 80,
+    "wires": []
+  },
+  {
+    "id": "92ef210684520c6e",
+    "type": "function",
+    "z": "226ebde6fc6e5490",
+    "name": "counter output",
+    "func": "msg.payload = \"counter set: mod-n simple example\";\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 840,
+    "y": 80,
+    "wires": [
+      [
+        "7b095d5be27d0c72"
+      ]
+    ]
+  },
+  {
+    "id": "ebd5645d0cd19825",
+    "type": "switch",
+    "z": "226ebde6fc6e5490",
+    "name": "",
+    "property": "payload",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "1",
+        "vt": "str"
+      }
+    ],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 1,
+    "x": 630,
+    "y": 80,
+    "wires": [
+      [
+        "92ef210684520c6e"
+      ]
+    ]
+  },
+  {
+    "id": "f49be7f3d51fb2c5",
+    "type": "mod-n counter",
+    "z": "226ebde6fc6e5490",
+    "name": "mod-2 trigger on high",
+    "numStates": "5",
+    "triggerOn": "1",
+    "outputs": 1,
+    "outputDebugInfo": false,
+    "x": 360,
+    "y": 80,
+    "wires": [
+      [
+        "ebd5645d0cd19825"
+      ]
+    ]
+  }
+]

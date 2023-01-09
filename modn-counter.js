@@ -22,50 +22,78 @@ module.exports = function (RED) {
 
         node.on("input", (msg, send, done) => {
 
-            if (node.triggerOn === "both"
-                || (node.triggerOn === "1" && msg.payload === 1)
-                || (node.triggerOn === "0" && msg.payload === 0)) {
+            // do we need to first reset before processing
+            // the input?
+            let resetRequest = undefined;
+            let setRequest = undefined;
 
-                state = state === 0 ? 1 : (state << 1);
-
-                const outputs = [(state >> this.numStates - 1) & 1];
-
-                //
-                // const ports = new Array(node.numStates)
-                //     .fill(0)
-                //     .map((p, i) => (state >> i) & 1);
-
-                if (node.outputDebugInfo) {
-                    node.trace(`current state: ${state}`);
+            if (Array.isArray(msg.payload)) {
+                resetRequest = msg.payload
+                    .find(p => p.topic === "reset" && p.value === 1);
+                setRequest = msg.payload
+                    .find(p => p.topic === "set");
+            } else if (typeof msg.payload === "object") {
+                if (msg.payload.topic !== undefined) {
+                    node.trace(`Payload: ${JSON.stringify(msg.payload)}`);
+                    resetRequest = msg.payload.topic === "reset" ? msg.payload : undefined;
+                    setRequest = msg.payload.topic === "set" ? msg.payload : undefined;
                 }
-
-                if (node.outputDebugInfo) {
-                    outputs.push({
-                        state: state,
-                        output: outputs[0]
-                    });
-                }
-
-                // check if the last one is a 1
-                // if so we need to circle back
-                if (outputs[0] === 1) {
-                    const cycleEnd = Date.now();
-                    if (node.outputDebugInfo) {
-                        node.trace(`cycle length: ${(cycleEnd - cycleStart) / 1000} secs`);
-                    }
-                    cycleStart = cycleEnd;
-                    state = 0;
-                }
-
-                send(outputs.map(p => ({
-                    payload: p
-                })));
-
+            } else if (typeof msg.payload === "number") {
+                setRequest = {
+                    value: msg.payload
+                };
             }
 
-            // all done
-            done();
+            // is there a reset request?
+            if (resetRequest) {
+                node.trace(`Resetting counter`);
+                state = 0;
+            }
+
+            if (setRequest) {
+                const setValue = msg.payload.value;
+
+                if (node.triggerOn === "both"
+                    || (node.triggerOn === "1" && setValue === 1)
+                    || (node.triggerOn === "0" && setValue === 0)) {
+
+                    state = state === 0 ? 1 : (state << 1);
+
+                    const outputs = [(state >> this.numStates - 1) & 1];
+
+                    if (node.outputDebugInfo) {
+                        node.trace(`current state: ${state}`);
+                    }
+
+                    if (node.outputDebugInfo) {
+                        outputs.push({
+                            state: state,
+                            output: outputs[0]
+                        });
+                    }
+
+                    // check if the last one is a 1
+                    // if so we need to circle back
+                    if (outputs[0] === 1) {
+                        const cycleEnd = Date.now();
+                        if (node.outputDebugInfo) {
+                            node.trace(`cycle length: ${(cycleEnd - cycleStart) / 1000} secs`);
+                        }
+                        cycleStart = cycleEnd;
+                        state = 0;
+                    }
+
+                    send(outputs.map(p => ({
+                        payload: p
+                    })));
+
+                }
+
+                // all done
+                done();
+            }
         });
+
 
     }
 

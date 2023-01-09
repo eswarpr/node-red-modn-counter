@@ -19,9 +19,12 @@
                 value: false
             }
         },
-        inputs: 1,
+        inputs: 2,
         outputs: 1,
         icon: 'icon.png',
+        inputLabels: function (index) {
+          return ["payload", "reset"][index];
+        },
         outputLabels: function (index) {
             return ["output", "debug"][index];
         },
